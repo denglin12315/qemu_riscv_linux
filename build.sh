@@ -4,11 +4,11 @@ case $1 in
 "qemu")
 	#####################qemu compile
 	./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio
-	make -j
+	bear make -j
 ;;
 "start")
 	####################lowlevel start code compile
-	CROSS_PREFIX=riscv64-linux
+	CROSS_PREFIX=/opt/riscv64-lp64d--glibc--bleeding-edge-2021.11-1/bin/riscv64-linux
 
 	cd $SHELL_FOLDER/lowlevelboot
 	$CROSS_PREFIX-gcc -x assembler-with-cpp -c startup.s -o $SHELL_FOLDER/lowlevelboot/startup.o
