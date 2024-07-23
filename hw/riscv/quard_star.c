@@ -39,15 +39,15 @@
 #include "sysemu/sysemu.h"
 
 static const MemMapEntry virt_memmap[] = {
-    [QUARD_STAR_MROM]  = {        0x0,        0x8000 },
-    [QUARD_STAR_SRAM]  = {     0x8000,        0x8000 },
-    [QUARD_STAR_CLINT] = {  0x2000000,       0x10000 },
-    [QUARD_STAR_PLIC]  = {  0xc000000, QUARD_STAR_PLIC_SIZE(QUARD_STAR_CPUS_MAX * 2) },
+    [QUARD_STAR_MROM]  = {        0x0,        0x8000 },     /* bootloadr on ROM, power on will execute  */
+    [QUARD_STAR_SRAM]  = {     0x8000,        0x8000 },     /* inner sram */
+    [QUARD_STAR_CLINT] = {  0x2000000,       0x10000 },     /* Core Level Interruptor */
+    [QUARD_STAR_PLIC]  = {  0xc000000, QUARD_STAR_PLIC_SIZE(QUARD_STAR_CPUS_MAX * 2) },     /* 外围level Interruptor control */
     [QUARD_STAR_UART0] = { 0x10000000,         0x100 },
     [QUARD_STAR_UART1] = { 0x10001000,         0x100 },
     [QUARD_STAR_UART2] = { 0x10002000,         0x100 },
-    [QUARD_STAR_FLASH] = { 0x20000000,     0x2000000 },
-    [QUARD_STAR_DRAM]  = { 0x80000000,           0x0 },
+    [QUARD_STAR_FLASH] = { 0x20000000,     0x2000000 },     /* flash on sysmem bus, can read ditectly from flash */
+    [QUARD_STAR_DRAM]  = { 0x80000000,           0x0 },     /* main memory */
 };
 
 #define QUARD_STAR_FLASH_SECTOR_SIZE (256 * KiB)
@@ -56,8 +56,10 @@ static PFlashCFI01 *quard_star_flash_create(RISCVVirtState *s,
                                        const char *name,
                                        const char *alias_prop_name)
 {
+    /*create a new cfi flash dev */
     DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
 
+    /* hw attr config */
     qdev_prop_set_uint64(dev, "sector-length", QUARD_STAR_FLASH_SECTOR_SIZE);
     qdev_prop_set_uint8(dev, "width", 4);
     qdev_prop_set_uint8(dev, "device-width", 2);
@@ -92,7 +94,7 @@ static void quard_star_flash_map(PFlashCFI01 *flash,
 }
 
 static void quard_star_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
-                               hwaddr start_addr,
+                               hwaddr start_addr,   /* 被引导的代码入口地址(物理地址)  */
                                hwaddr rom_base, hwaddr rom_size,
                                uint64_t kernel_entry,
                                uint32_t fdt_load_addr)
@@ -103,7 +105,7 @@ static void quard_star_setup_rom_reset_vec(MachineState *machine, RISCVHartArray
     if (!riscv_is_32bit(harts)) {
         start_addr_hi32 = start_addr >> 32;
     }
-    /* reset vector */
+    /* reset vector hard code */
     uint32_t reset_vec[10] = {
         0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
         0x02828613,                  /*     addi   a2, t0, %pcrel_lo(1b) */
@@ -139,7 +141,7 @@ static void quard_star_machine_init(MachineState *machine)
 {
     const MemMapEntry *memmap = virt_memmap;
     RISCVVirtState *s = RISCV_VIRT_MACHINE(machine);
-    MemoryRegion *system_memory = get_system_memory();
+    MemoryRegion *system_memory = get_system_memory();  /* system_memory refer to cpu address_space */
     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
     MemoryRegion *sram_mem = g_new(MemoryRegion, 1);
     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
@@ -184,11 +186,11 @@ static void quard_star_machine_init(MachineState *machine)
                                 hart_count, &error_abort);
         sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_abort);
 
-	sifive_clint_create(
-            memmap[QUARD_STAR_CLINT].base + i * memmap[QUARD_STAR_CLINT].size,
-            memmap[QUARD_STAR_CLINT].size, base_hartid, hart_count,
-            SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-            SIFIVE_CLINT_TIMEBASE_FREQ, true);
+        sifive_clint_create(
+                memmap[QUARD_STAR_CLINT].base + i * memmap[QUARD_STAR_CLINT].size,
+                memmap[QUARD_STAR_CLINT].size, base_hartid, hart_count,
+                SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+                SIFIVE_CLINT_TIMEBASE_FREQ, true);
 
         plic_hart_config_len =
             (strlen(QUARD_STAR_PLIC_HART_CONFIG) + 1) * hart_count;
@@ -236,10 +238,11 @@ static void quard_star_machine_init(MachineState *machine)
     memory_region_add_subregion(system_memory, memmap[QUARD_STAR_MROM].base,
                                 mask_rom);
 
+    /* parm3: the flash base for code exec  */
     quard_star_setup_rom_reset_vec(machine, &s->soc[0], virt_memmap[QUARD_STAR_FLASH].base,
                               virt_memmap[QUARD_STAR_MROM].base,
                               virt_memmap[QUARD_STAR_MROM].size,
-                              0x0, 0x0);
+                              0x0, 0x0);        /* 复位异常中断向量代码实现, only cpu0 will exec this code */
     serial_mm_init(system_memory, memmap[QUARD_STAR_UART0].base,
         0, qdev_get_gpio_in(DEVICE(mmio_plic), QUARD_STAR_UART0_IRQ), 399193,
         serial_hd(0), DEVICE_LITTLE_ENDIAN);
@@ -252,7 +255,7 @@ static void quard_star_machine_init(MachineState *machine)
 
     s->flash = quard_star_flash_create(s, "quard-star.flash0", "pflash0");
     pflash_cfi01_legacy_drive(s->flash, drive_get(IF_PFLASH, 0, 0));
-    quard_star_flash_map(s->flash, virt_memmap[QUARD_STAR_FLASH].base,
+    quard_star_flash_map(s->flash, virt_memmap[QUARD_STAR_FLASH].base,  /* cfi flash地址空间映射到sys bus */
                          virt_memmap[QUARD_STAR_FLASH].size, system_memory);
 }
 

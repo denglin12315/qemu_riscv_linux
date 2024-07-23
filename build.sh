@@ -3,7 +3,7 @@ SHELL_FOLDER=$(pwd)
 case $1 in
 "qemu")
 	#####################qemu compile
-	./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio
+	./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio --enable-debug
 	bear make -j
 ;;
 "start")
