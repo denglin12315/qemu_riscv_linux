@@ -1,0 +1,3 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/firmware/payloads/test_main.o: \
+ /home/ldeng/qemu_riscv_linux/opensbi/firmware/payloads/test_main.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h

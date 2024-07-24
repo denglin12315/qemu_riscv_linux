@@ -1,0 +1,8 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/lib/utils/serial/xlnx-uartlite.o: \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/serial/xlnx-uartlite.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_io.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_barrier.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_console.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/serial/xlnx_uartlite.h

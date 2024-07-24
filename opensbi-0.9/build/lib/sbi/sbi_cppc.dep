@@ -1,0 +1,6 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/sbi_cppc.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/sbi_cppc.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_cppc.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h

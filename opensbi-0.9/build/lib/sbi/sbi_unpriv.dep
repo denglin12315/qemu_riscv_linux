@@ -1,0 +1,10 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/sbi_unpriv.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/sbi_unpriv.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitops.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_hart.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_scratch.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_trap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_unpriv.h

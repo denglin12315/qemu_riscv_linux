@@ -1,0 +1,8 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/lib/utils/libfdt/fdt_ro.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/fdt_ro.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/libfdt_env.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_string.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/fdt.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/libfdt.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/libfdt_env.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/libfdt_internal.h

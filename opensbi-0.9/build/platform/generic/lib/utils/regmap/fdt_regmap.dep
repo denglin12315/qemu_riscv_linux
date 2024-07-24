@@ -1,0 +1,26 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/lib/utils/regmap/fdt_regmap.o: \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/regmap/fdt_regmap.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/libfdt.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/libfdt_env.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_string.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_byteorder.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/libfdt/fdt.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_helper.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_domain.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_locks.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_hartmask.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitmap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitops.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_scratch.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_domain_context.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_trap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/regmap/fdt_regmap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/regmap/regmap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_list.h

@@ -1,0 +1,6 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/sbi_expected_trap.o: \
+ /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/sbi_expected_trap.S \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_trap.h

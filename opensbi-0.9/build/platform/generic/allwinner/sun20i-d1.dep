@@ -1,0 +1,30 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/allwinner/sun20i-d1.o: \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/allwinner/sun20i-d1.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/include/platform_override.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_list.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_hart.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitops.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_trap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_scratch.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/include/thead/c9xx_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/include/thead/c9xx_pmu.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_io.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_barrier.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_hsm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_pmu.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_fixup.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_helper.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_domain.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_locks.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_hartmask.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitmap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_domain_context.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/irqchip/fdt_irqchip_plic.h

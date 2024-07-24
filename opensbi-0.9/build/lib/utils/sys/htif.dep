@@ -1,0 +1,4 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/lib/utils/sys/htif.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/sys/htif.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_locks.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/sys/htif.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h

@@ -1,0 +1,10 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/riscv_asm.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/riscv_asm.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_platform.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_scratch.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_version.h

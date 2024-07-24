@@ -1,0 +1,7 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/andes/sleep.o: \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/andes/sleep.S \
+ /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/include/andes/andes.h

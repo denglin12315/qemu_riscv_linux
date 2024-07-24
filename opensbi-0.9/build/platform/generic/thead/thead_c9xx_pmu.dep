@@ -1,0 +1,14 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/thead/thead_c9xx_pmu.o: \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/thead/thead_c9xx_pmu.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/include/thead/c9xx_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/include/thead/c9xx_pmu.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitops.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_pmu.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_trap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_scratch.h

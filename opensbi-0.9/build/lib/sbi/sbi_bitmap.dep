@@ -1,0 +1,5 @@
+/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/sbi_bitmap.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/sbi_bitmap.c \
+ /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitmap.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitops.h \
+ /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h
