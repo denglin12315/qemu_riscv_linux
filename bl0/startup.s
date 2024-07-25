@@ -29,6 +29,7 @@
 _start:
  	//load opensbi_fw.bin 
 	//[0x20200000:0x20400000] --> [0x80000000:0x80200000]
+    //从flash(地址范围[0x20200000:0x20400000])加载到内存(地址范围[0x80000000:0x80200000])
     li		a0,	0x202
 	slli	a0,	a0, 20      //a0 = 0x20200000
     li		a1,	0x800
@@ -37,7 +38,7 @@ _start:
 	slli	a2,	a2, 20      //a2 = 0x80200000
 	load_data a0,a1,a2
 
-	//load qemu_sbi.dtb
+	//load quard_star_sbi.dtb
 	//[0x20080000:0x20100000] --> [0x82200000:0x82280000]
     li		a0,	0x2008
 	slli	a0,	a0, 16       //a0 = 0x20080000
@@ -45,6 +46,16 @@ _start:
 	slli	a1,	a1, 20       //a1 = 0x82200000
     li		a2,	0x8228
 	slli	a2,	a2, 16       //a2 = 0x82280000
+	load_data a0,a1,a2
+
+    //load trusted_fw.bin
+	//[0x20400000:0x20800000] --> [0x80200000:0x80600000]
+    li		a0,	0x204
+	slli	a0,	a0, 20      //a0 = 0x20400000
+    li		a1,	0xb00
+	slli	a1,	a1, 20      //a1 = 0xb0000000
+    li		a2,	0xb04
+	slli	a2,	a2, 20      //a2 = 0xb0400000
 	load_data a0,a1,a2
 
     csrr    a0, mhartid

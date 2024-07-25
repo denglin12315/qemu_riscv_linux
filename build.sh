@@ -21,6 +21,13 @@ case $1 in
     make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star -j
     cd -
 ;;
+"trusted_fw")
+    cd $SHELL_FOLDER/trusted_fw
+    $CROSS_PREFIX-gcc -x assembler-with-cpp -c startup.s -o $SHELL_FOLDER/trusted_fw/startup.o
+    $CROSS_PREFIX-gcc -nostartfiles -T./link.lds -Wl,-Map=$SHELL_FOLDER/trusted_fw/trusted_fw.map -Wl,--gc-sections $SHELL_FOLDER/trusted_fw/startup.o -o $SHELL_FOLDER/trusted_fw/trusted_fw.elf
+    $CROSS_PREFIX-objcopy -O binary -S $SHELL_FOLDER/trusted_fw/trusted_fw.elf $SHELL_FOLDER/trusted_fw/trusted_fw.bin
+    $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/trusted_fw/trusted_fw.elf > $SHELL_FOLDER/trusted_fw/trusted_fw.lst
+;;
 "bl0")
 	####################lowlevel start code compile
 	cd $SHELL_FOLDER/bl0
@@ -35,6 +42,7 @@ case $1 in
 	dd of=fw.bin bs=1k conv=notrunc seek=0 if=bl0_fw.bin
     dd of=fw.bin bs=1k conv=notrunc seek=512 if=$SHELL_FOLDER/dts/quard_star_sbi.dtb
     dd of=fw.bin bs=1k conv=notrunc seek=2K if=$SHELL_FOLDER/opensbi-0.9/build/platform/quard_star/firmware/fw_jump.bin
+    dd of=fw.bin bs=1k conv=notrunc seek=4K if=$SHELL_FOLDER/trusted_fw/trusted_fw.bin
 	cd $SHELL_FOLDER
 ;;
 "clean")
@@ -52,6 +60,13 @@ case $1 in
     cd -
 
     cd $SHELL_FOLDER/bl0
+    rm -rf *.o
+    rm -rf *.bin
+    rm -rf *.elf
+    rm -rf *.lst
+    cd -
+
+    cd $SHELL_FOLDER/trusted_fw
     rm -rf *.o
     rm -rf *.bin
     rm -rf *.elf

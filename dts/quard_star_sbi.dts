@@ -1,13 +1,78 @@
 /dts-v1/;
-
+/* 设备树一个节点描述一个硬件设备或者资源， 格式为"节点名称:{属性:值}" */
 / {
+    /* #address-cells定义了地址部分的单元数(一个单元是一个32bit数字) */
 	#address-cells = <0x2>;
+    /* #size-cells定义了大小部分的单元数, 这两个属性联合起来决定了子节点的reg属性的格式 */
 	#size-cells = <0x2>;
 	compatible = "riscv-quard-star";
 	model = "riscv-quard-star,qemu";
 
+    /* chosen节点的主要作用是指示启动加载器（bootloader）和操作系统内核应该使用的某些资源或参数 */
 	chosen {
-		stdout-path = "/soc/uart0@10000000";
+		stdout-path = "/soc/uart0@10000000";    /* 指定stdout设备为uart0 */
+
+        /* opensbi-domains节点主要用于定义和管理多个SBI域，每个域可能有不同的特权级别和硬件资源配置 */
+		opensbi-domains {
+		    compatible = "opensbi,domain,config";
+
+            /*tmem: 一个内存区域，从物理地址0xb0000000开始,大小为256MB*/
+            tmem: tmem {
+                compatible = "opensbi,domain,memregion";
+                base = <0x0 0xb0000000>;    /*起始地址占用两个单元*/
+                order = <28>;               /* 大小占用1个单元你，并且是order */
+            };
+
+            /*tuart: 一个内存区域，从物理地址0x10002000开始，大小为256字节*/
+            tuart: tuart {
+                compatible = "opensbi,domain,memregion";
+                base = <0x0 0x10002000>;
+                order = <8>;
+                mmio;
+                devices = <&uart2>;
+            };
+
+            /*allmem: 一个内存区域，从物理地址0x0开始，大小为2^64字节*/
+		    allmem: allmem {
+		        compatible = "opensbi,domain,memregion";
+		        base = <0x0 0x0>;
+		        order = <64>;
+		    };
+
+            /*运行trusted fw的domain */
+            tdomain: trusted-domain {
+                compatible = "opensbi,domain,instance";
+                /*在 RISC-V 处理器的上下文中，possible-harts（HARTs：Hardware Threads，即硬件线程）
+                 *是一种描述可用硬件线程或处理器核的属性*/
+                possible-harts = <&cpu7>;
+                /* 定义该域可以访问的内存区域,这些内存区域是通过引用在同一设备树中定义的内存区域节点来指定的,
+                 * 这是一个数组，每个元素由两个部分组成：内存区域的引用和权限标识符:
+                 * &tmem 0x7: 这意味着trusted-domain可以访问tmem区域，并且权限标识符为0x7,其他类推
+                 */
+                regions = <&tmem 0x7>, <&tuart 0x7>, <&allmem 0x7>;
+                boot-hart = <&cpu7>;    /*不同domain都可以有自己的启动核*/
+                next-arg1 = <0x0 0x00000000>;
+		        next-addr = <0x0 0xb0000000>;
+                /* 下一个引导阶段的处理器模式，0表示machine Mode */
+		        next-mode = <0x0>;
+                system-reset-allowed;
+            };
+
+            /* 运行opensbl的domain */
+		    udomain: untrusted-domain {
+		        compatible = "opensbi,domain,instance";
+		        possible-harts = <&cpu0 &cpu1 &cpu2 &cpu3 &cpu4 &cpu5 &cpu6>;
+		        regions = <&tmem 0x0>, <&tuart 0x0>, <&allmem 0x7>;
+				boot-hart = <&cpu0>;    /*不同domain都可以有自己的启动核*/
+                /* 通常表示传递给下一个引导阶段的第一个参数。这可以是启动参数或某种引导配置,表示参数是0x82200000地址 */
+		        next-arg1 = <0x0 0x82200000>;
+                /*表示下一个引导阶段的起始地址或入口地址。系统在引导过程中会跳转到这个地址执行新的程序,地址为0x82000000*/
+		        next-addr = <0x0 0x82000000>;
+                /* 下一个引导阶段的处理器模式，1表示Supervisor Mode */
+		        next-mode = <0x1>;
+		        system-reset-allowed;
+		    };
+		};
 	};
 
 	memory@80000000 {
@@ -26,6 +91,7 @@
 			reg = <0x0>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&udomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -43,6 +109,7 @@
 			reg = <0x1>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&udomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -60,6 +127,7 @@
 			reg = <0x2>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&udomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -77,6 +145,7 @@
 			reg = <0x3>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&udomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -94,6 +163,7 @@
 			reg = <0x4>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&udomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -111,6 +181,7 @@
 			reg = <0x5>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&udomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -128,6 +199,7 @@
 			reg = <0x6>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&udomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -145,6 +217,7 @@
 			reg = <0x7>;
 			status = "okay";
 			compatible = "riscv";
+            opensbi-domain = <&tdomain>;
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 
@@ -205,6 +278,12 @@
 			interrupts = <0xa>;
 			interrupt-parent = <0x11>;
 			clock-frequency = <0x384000>;
+
+            /*寄存器多用reg来表示范围————
+             *起始地址用两个单元表示:0x0 0x10000000
+             *偏移用1个单元表示:0x0
+             *size用一个单元表示：0x100(256)
+             */
 			reg = <0x0 0x10000000 0x0 0x100>;
 			compatible = "ns16550a";
 		};
