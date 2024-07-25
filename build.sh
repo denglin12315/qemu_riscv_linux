@@ -46,10 +46,10 @@ case $1 in
 	cd $SHELL_FOLDER
 ;;
 "clean")
-    cd $SHELL_FOLDER/qemu-6.0.0
-    ./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio --enable-debug
-    make clean
-    cd -
+    #cd $SHELL_FOLDER/qemu-6.0.0
+    #./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio --enable-debug
+    #make clean
+    #cd -
 
     cd $SHELL_FOLDER/dts
     rm -rf ./quard_star_sbi.dtb

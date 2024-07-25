@@ -49,7 +49,7 @@ _start:
 	load_data a0,a1,a2
 
     //load trusted_fw.bin
-	//[0x20400000:0x20800000] --> [0x80200000:0x80600000]
+	//[0x20400000:0x20800000] --> [0xb0000000:0xb0400000]
     li		a0,	0x204
 	slli	a0,	a0, 20      //a0 = 0x20400000
     li		a1,	0xb00
@@ -58,6 +58,8 @@ _start:
 	slli	a2,	a2, 20      //a2 = 0xb0400000
 	load_data a0,a1,a2
 
+    /* 在将各个fw从flash读到内存之后，判断当前coreid是不是0，如果是0，跳转到0x80000000地址执行
+       这里放的就是opensbi_fw程序,传入的参数是设备树在内存中的起始地址:0x82200000 */
     csrr    a0, mhartid
     li		t0,	0x0     
 	beq		a0, t0, _no_wait
