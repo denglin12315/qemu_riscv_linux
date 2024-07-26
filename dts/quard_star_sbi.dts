@@ -19,8 +19,8 @@
             /*tmem: 一个内存区域，从物理地址0xb0000000开始,大小为256MB*/
             tmem: tmem {
                 compatible = "opensbi,domain,memregion";
-                base = <0x0 0xb0000000>;    /*起始地址占用两个单元*/
-                order = <28>;               /* 大小占用1个单元你，并且是order */
+                base = <0x0 0xBF800000>;    /*起始地址占用两个单元*/
+                order = <23>;               /* 大小占用1个单元你，并且是order */
             };
 
             /*tuart: 一个内存区域，从物理地址0x10002000开始，大小为256字节*/
@@ -52,7 +52,7 @@
                 regions = <&tmem 0x7>, <&tuart 0x7>, <&allmem 0x7>;
                 boot-hart = <&cpu7>;    /*不同domain都可以有自己的启动核*/
                 next-arg1 = <0x0 0x00000000>;
-		        next-addr = <0x0 0xb0000000>;   /* trusted fw就被bl0就被加载在这个地址上 */
+		        next-addr = <0x0 0xBF800000>;   /* trusted fw就被bl0就被加载在这个地址上 */
                 /* 下一个引导阶段的处理器模式，0表示machine Mode */
 		        next-mode = <0x0>;
                 system-reset-allowed;
@@ -65,9 +65,9 @@
 		        regions = <&tmem 0x0>, <&tuart 0x0>, <&allmem 0x7>;
 				boot-hart = <&cpu0>;    /*不同domain都可以有自己的启动核*/
                 /* 通常表示传递给下一个引导阶段的第一个参数。这可以是启动参数或某种引导配置,表示参数是0x82000000地址 */
-		        next-arg1 = <0x0 0x82000000>;   //设备树在内存中的地址 ———— uboot.dtb入口地址
+		        next-arg1 = <0x0 0xB0000000>;   //设备树在内存中的地址 ———— uboot.dtb入口地址
                 /*表示下一个引导阶段的起始地址或入口地址。系统在引导过程中会跳转到这个地址执行新的程序,地址为0x80200000*/
-		        next-addr = <0x0 0x80200000>;   //CPU0需要跳转到的地址———— uboot入口地址
+		        next-addr = <0x0 0xB0200000>;   //CPU0需要跳转到的地址———— uboot入口地址
                 //在bl0的最后阶段，代码会将0x82200000作为传输传给opensbi_fw,并且跳转到opensbi_fw所在的地址0x80000000处执行
                 /* 下一个引导阶段的处理器模式，1表示Supervisor Mode */
 		        next-mode = <0x1>;
@@ -78,7 +78,7 @@
 
 	memory@80000000 {
 		device_type = "memory";
-		reg = <0x0 0x80000000 0x0 0x40000000>;
+		reg = <0x0 0x80000000 0x0 0x40000000>;      /* DDR起始物理地址是0x80000000(2G), 大小是0x40000000(1G) */
 	};
 
 	cpus {

@@ -20,6 +20,7 @@ case $1 in
     cd $SHELL_FOLDER/opensbi-0.9
     make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star clean 
     make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star -j
+    $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/opensbi-0.9/fw_jump.elf > $SHELL_FOLDER/opensbi-0.9/fw_jump.lst
     cd -
 ;;
 "trusted_fw")
@@ -50,7 +51,7 @@ case $1 in
 ;;
 "uboot")
     cd $SHELL_FOLDER/u-boot-2021.07
-    make CROSS_COMPILE=$CROSS_PREFIX- qemu-riscv64_smode_defconfig
+    make CROSS_COMPILE=$CROSS_PREFIX- qemu-quard-star_defconfig
     make CROSS_COMPILE=$CROSS_PREFIX- -j
     $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/u-boot-2021.07/u-boot > $SHELL_FOLDER/u-boot-2021.07/u-boot.lst
     cd -
