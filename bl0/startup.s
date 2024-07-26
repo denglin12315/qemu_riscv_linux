@@ -58,6 +58,26 @@ _start:
 	slli	a2,	a2, 20      //a2 = 0xb0400000
 	load_data a0,a1,a2
 
+	//load u-boot.dtb
+	//[0x20100000:0x20180000] --> [0x82000000:0x82080000]
+    li		a0,	0x201
+	slli	a0,	a0, 20       //a0 = 0x20100000
+	li		a1,	0x820
+	slli	a1,	a1, 20       //a1 = 0x82000000
+    li		a2,	0x8208
+	slli	a2,	a2, 16       //a2 = 0x82080000
+	load_data a0,a1,a2
+
+	//load u-boot.bin
+	//[0x20800000:0x20C00000] --> [0x80200000:0x80600000]
+    li		a0,	0x208
+	slli	a0,	a0, 20      //a0 = 0x20800000
+    li		a1,	0x802
+	slli	a1,	a1, 20      //a1 = 0x80200000
+    li		a2,	0x806
+	slli	a2,	a2, 20      //a2 = 0x80600000
+	load_data a0,a1,a2
+
     /* 在将各个fw从flash读到内存之后，判断当前coreid是不是0，如果是0，跳转到0x80000000地址执行
        这里放的就是opensbi_fw程序,传入的参数是设备树在内存中的起始地址:0x82200000 */
     csrr    a0, mhartid

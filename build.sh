@@ -13,6 +13,7 @@ case $1 in
 "dts")
     cd $SHELL_FOLDER/dts
     dtc -I dts -O dtb -o ./quard_star_sbi.dtb ./quard_star_sbi.dts
+    dtc -I dts -O dtb -o ./quard_star_uboot.dtb ./quard_star_uboot.dts
     cd -
 ;;
 "opensbi")
@@ -41,9 +42,18 @@ case $1 in
 	dd of=fw.bin bs=1k count=32k if=/dev/zero
 	dd of=fw.bin bs=1k conv=notrunc seek=0 if=bl0_fw.bin
     dd of=fw.bin bs=1k conv=notrunc seek=512 if=$SHELL_FOLDER/dts/quard_star_sbi.dtb
+    dd of=fw.bin bs=1k conv=notrunc seek=1K if=$SHELL_FOLDER/dts/quard_star_uboot.dtb
     dd of=fw.bin bs=1k conv=notrunc seek=2K if=$SHELL_FOLDER/opensbi-0.9/build/platform/quard_star/firmware/fw_jump.bin
     dd of=fw.bin bs=1k conv=notrunc seek=4K if=$SHELL_FOLDER/trusted_fw/trusted_fw.bin
+    dd of=fw.bin bs=1k conv=notrunc seek=8K if=$SHELL_FOLDER/u-boot-2021.07/u-boot.bin
 	cd $SHELL_FOLDER
+;;
+"uboot")
+    cd $SHELL_FOLDER/u-boot-2021.07
+    make CROSS_COMPILE=$CROSS_PREFIX- qemu-riscv64_smode_defconfig
+    make CROSS_COMPILE=$CROSS_PREFIX- -j
+    $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/u-boot-2021.07/u-boot > $SHELL_FOLDER/u-boot-2021.07/u-boot.lst
+    cd -
 ;;
 "clean")
     #cd $SHELL_FOLDER/qemu-6.0.0
@@ -57,6 +67,10 @@ case $1 in
 
     cd $SHELL_FOLDER/opensbi-0.9
     make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star clean
+    cd -
+
+    cd $SHELL_FOLDER/u-boot-2021.07
+    make CROSS_COMPILE=$CROSS_PREFIX- distclean
     cd -
 
     cd $SHELL_FOLDER/bl0
