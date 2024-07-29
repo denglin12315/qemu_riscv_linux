@@ -47,12 +47,17 @@ case $1 in
     dd of=fw.bin bs=1k conv=notrunc seek=2K if=$SHELL_FOLDER/opensbi-0.9/build/platform/quard_star/firmware/fw_jump.bin
     dd of=fw.bin bs=1k conv=notrunc seek=4K if=$SHELL_FOLDER/trusted_fw/trusted_fw.bin
     dd of=fw.bin bs=1k conv=notrunc seek=8K if=$SHELL_FOLDER/u-boot-2021.07/u-boot.bin
+
+    #create fs
+    cd $SHELL_FOLDER/rootfs
+    rm -rf rootfs.img
+    dd of=rootfs.img bs=1k count=32k if=/dev/zero
 	cd $SHELL_FOLDER
 ;;
 "uboot")
     cd $SHELL_FOLDER/u-boot-2021.07
     make CROSS_COMPILE=$CROSS_PREFIX- qemu-quard-star_defconfig
-    make CROSS_COMPILE=$CROSS_PREFIX- -j
+    bear make CROSS_COMPILE=$CROSS_PREFIX- -j
     $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/u-boot-2021.07/u-boot > $SHELL_FOLDER/u-boot-2021.07/u-boot.lst
     cd -
 ;;
@@ -87,6 +92,10 @@ case $1 in
     rm -rf *.elf
     rm -rf *.lst
     cd -
+
+    cd $SHELL_FOLDER/rootfs
+    rm -rf rootfs.img
+    cd $SHELL_FOLDER
 
     rm -rf fw.bin
 ;;
