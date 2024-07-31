@@ -29,7 +29,9 @@
 #ifndef CONFIG_SPL_BUILD
 #define BOOT_TARGET_DEVICES(func) \
 	func(QEMU, qemu, na) \
+    func(VIRTIO, virtio, 0)
 
+/* VIRTIO boot就定义在这个文件里面 */
 #include <config_distro_bootcmd.h>
 
 #define BOOTENV_DEV_QEMU(devtypeu, devtypel, instance) \

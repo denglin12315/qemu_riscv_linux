@@ -17,10 +17,34 @@
 		    compatible = "opensbi,domain,config";
 
             /*tmem: 一个内存区域，从物理地址0xb0000000开始,大小为256MB*/
-            tmem: tmem {
+            tmem0: tmem0 {
                 compatible = "opensbi,domain,memregion";
                 base = <0x0 0xBF800000>;    /*起始地址占用两个单元*/
-                order = <23>;               /* 大小占用1个单元你，并且是order */
+                order = <22>;               /* 大小占用1个单元你，并且是order */
+            };
+
+            tmem1: tmem1 {
+                compatible = "opensbi,domain,memregion";
+                base = <0x0 0xBFC00000>;
+                order = <21>;
+            };
+
+            tmem2: tmem2 {
+                compatible = "opensbi,domain,memregion";
+                base = <0x0 0xBFE00000>;
+                order = <20>;
+            };
+
+            tmem3: tmem3 {
+                compatible = "opensbi,domain,memregion";
+                base = <0x0 0xBFF00000>;
+                order = <19>;
+            };
+
+            tmem4: tmem4 {
+                compatible = "opensbi,domain,memregion";
+                base = <0x0 0xBFFC0000>;
+                order = <18>;
             };
 
             /*tuart: 一个内存区域，从物理地址0x10002000开始，大小为256字节*/
@@ -47,9 +71,9 @@
                 possible-harts = <&cpu7>;
                 /* 定义该域可以访问的内存区域,这些内存区域是通过引用在同一设备树中定义的内存区域节点来指定的,
                  * 这是一个数组，每个元素由两个部分组成：内存区域的引用和权限标识符:
-                 * &tmem 0x7: 这意味着trusted-domain可以访问tmem区域，并且权限标识符为0x7,其他类推
+                 * &tmem 0x7: 这意味着trusted-domain可以访问tmem0-4区域，并且权限标识符为0x7,其他类推
                  */
-                regions = <&tmem 0x7>, <&tuart 0x7>, <&allmem 0x7>;
+                regions = <&tmem0 0x7>, <&tmem1 0x7>, <&tmem2 0x7>, <&tmem3 0x7>, <&tmem4 0x7>, <&tuart 0x7>, <&allmem 0x7>;
                 boot-hart = <&cpu7>;    /*不同domain都可以有自己的启动核*/
                 next-arg1 = <0x0 0x00000000>;
 		        next-addr = <0x0 0xBF800000>;   /* trusted fw就被bl0就被加载在这个地址上 */
@@ -62,7 +86,7 @@
 		    udomain: untrusted-domain {
 		        compatible = "opensbi,domain,instance";
 		        possible-harts = <&cpu0 &cpu1 &cpu2 &cpu3 &cpu4 &cpu5 &cpu6>;
-		        regions = <&tmem 0x0>, <&tuart 0x0>, <&allmem 0x7>;
+                regions = <&tmem0 0x0>, <&tmem1 0x0>, <&tmem2 0x0>, <&tmem3 0x0>, <&tmem4 0x0>, <&tuart 0x0>, <&allmem 0x7>;
 				boot-hart = <&cpu0>;    /*不同domain都可以有自己的启动核*/
                 /* 通常表示传递给下一个引导阶段的第一个参数。这可以是启动参数或某种引导配置,表示参数是0x82000000地址 */
 		        next-arg1 = <0x0 0xB0000000>;   //设备树在内存中的地址 ———— uboot.dtb入口地址
@@ -289,7 +313,7 @@
 		};
 
 		uart1: uart1@10001000 {
-			interrupts = <0xa>;
+			interrupts = <0xb>;
 			interrupt-parent = <0x11>;
 			clock-frequency = <0x384000>;
 			reg = <0x0 0x10001000 0x0 0x100>;
@@ -297,7 +321,7 @@
 		};
 
         uart2: uart2@10002000 {
-			interrupts = <0xa>;
+			interrupts = <0xc>;
 			interrupt-parent = <0x11>;
 			clock-frequency = <0x384000>;
 			reg = <0x0 0x10002000 0x0 0x100>;
