@@ -1,7 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/utils/sys/sifive_test.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/sys/sifive_test.c \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_io.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_barrier.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/sys/sifive_test.h

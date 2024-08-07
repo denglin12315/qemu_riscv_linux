@@ -41,13 +41,15 @@ case $1 in
 "opensbi")
     cd $SHELL_FOLDER/opensbi-0.9
     make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star clean 
-    make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star -j
-    $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/opensbi-0.9/fw_jump.elf > $SHELL_FOLDER/opensbi-0.9/fw_jump.lst
+    rm -rf ./build
+    bear make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star -j
+    $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/opensbi-0.9/build/platform/quard_star/firmware/fw_jump.elf > $SHELL_FOLDER/opensbi-0.9/fw_jump.lst
     cd -
 ;;
 "opensbi_clean")
     cd $SHELL_FOLDER/opensbi-0.9
     make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star clean 
+    rm -rf ./build
     rm -rf opensbi-0.9/fw_jump.lst
     cd -
 ;;

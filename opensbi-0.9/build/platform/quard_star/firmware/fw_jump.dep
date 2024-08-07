@@ -1,8 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/platform/quard_star/firmware/fw_jump.o: /home/ldeng/qemu_riscv_linux/opensbi/firmware/fw_jump.S \
- /home/ldeng/qemu_riscv_linux/opensbi/firmware/fw_base.S \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_platform.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_scratch.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_trap.h

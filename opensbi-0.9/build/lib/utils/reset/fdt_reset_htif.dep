@@ -1,6 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/utils/reset/fdt_reset_htif.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/reset/fdt_reset_htif.c \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/reset/fdt_reset.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_helper.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/sys/htif.h

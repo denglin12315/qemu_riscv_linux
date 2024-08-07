@@ -1,7 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/sbi_fifo.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/sbi_fifo.c \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_locks.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_fifo.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_string.h

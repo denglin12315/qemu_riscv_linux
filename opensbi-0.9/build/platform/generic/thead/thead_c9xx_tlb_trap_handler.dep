@@ -1,3 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/thead/thead_c9xx_tlb_trap_handler.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/thead/thead_c9xx_tlb_trap_handler.S \
- /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h

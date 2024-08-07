@@ -1,8 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/sbi_ecall.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/sbi_ecall.c \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_console.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_list.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_trap.h

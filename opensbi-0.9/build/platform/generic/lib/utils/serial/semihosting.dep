@@ -1,9 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/lib/utils/serial/semihosting.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/serial/semihosting.c \
- /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_console.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_string.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/serial/semihosting.h

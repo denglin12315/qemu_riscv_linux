@@ -1,2 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/sbi_math.o: /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/sbi_math.c \
- /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h

@@ -1,6 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/utils/serial/fdt_serial_uart8250.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/serial/fdt_serial_uart8250.c \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_helper.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/serial/fdt_serial.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/serial/uart8250.h

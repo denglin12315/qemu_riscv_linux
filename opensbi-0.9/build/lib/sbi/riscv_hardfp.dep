@@ -1,3 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/riscv_hardfp.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/riscv_hardfp.S \
- /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h

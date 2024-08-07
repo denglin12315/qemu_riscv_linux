@@ -1,6 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/sifive_fu540.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/sifive_fu540.c \
- /home/ldeng/qemu_riscv_linux/opensbi/platform/generic/include/platform_override.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_helper.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_fixup.h

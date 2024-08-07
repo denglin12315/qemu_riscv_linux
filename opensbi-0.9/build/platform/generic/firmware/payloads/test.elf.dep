@@ -1,3 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/firmware/payloads/test.elf.ld: \
- /home/ldeng/qemu_riscv_linux/opensbi/firmware/payloads/test.elf.ldS \
- /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h

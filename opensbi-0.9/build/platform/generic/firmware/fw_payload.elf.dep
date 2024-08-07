@@ -1,4 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/firmware/fw_payload.elf.ld: \
- /home/ldeng/qemu_riscv_linux/opensbi/firmware/fw_payload.elf.ldS \
- /home/ldeng/qemu_riscv_linux/opensbi/build/platform/generic/kconfig/autoconf.h \
- /home/ldeng/qemu_riscv_linux/opensbi/firmware/fw_base.ldS

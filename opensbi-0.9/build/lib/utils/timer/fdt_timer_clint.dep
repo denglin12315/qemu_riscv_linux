@@ -1,8 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/utils/timer/fdt_timer_clint.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/lib/utils/timer/fdt_timer_clint.c \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_error.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_ecall_interface.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/fdt/fdt_helper.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/timer/fdt_timer.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi_utils/sys/clint.h

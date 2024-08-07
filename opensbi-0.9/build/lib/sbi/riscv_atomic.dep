@@ -1,9 +1,0 @@
-/home/ldeng/qemu_riscv_linux/opensbi/build/lib/sbi/riscv_atomic.o: \
- /home/ldeng/qemu_riscv_linux/opensbi/lib/sbi/riscv_atomic.c \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_bitops.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_types.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_asm.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_encoding.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/sbi_const.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_atomic.h \
- /home/ldeng/qemu_riscv_linux/opensbi/include/sbi/riscv_barrier.h
