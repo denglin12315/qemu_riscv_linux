@@ -11,7 +11,8 @@ mount /dev/loop70p1 $1/target/bootfs
 mount /dev/loop70p2 $1/target/rootfs
 
 cp -r $1/bootfs/* $1/target/bootfs/
-cp -r $1/rootfs/* $1/target/rootfs/
+mkdir -p $1/target/rootfs/sbin
+cp -r $1/rootfs/fake_init/init $1/target/rootfs/sbin/
 sync
 
 umount $1/target/bootfs 

@@ -87,7 +87,7 @@ case $1 in
     dd of=fw.bin bs=1k conv=notrunc seek=4K if=$SHELL_FOLDER/trusted_fw/trusted_fw.bin
     dd of=fw.bin bs=1k conv=notrunc seek=8K if=$SHELL_FOLDER/u-boot-2021.07/u-boot.bin
 ;;
-"bl0")
+"bl0_clean")
     cd $SHELL_FOLDER/bl0
     rm -rf *.o
     rm -rf *.bin
@@ -97,7 +97,9 @@ case $1 in
 ;;
 "fs")
     cd $SHELL_FOLDER/fs
-    rm -rf ./fs/rootfs/rootfs.img
+    rm -rf ./rootfs/rootfs.img
+    rm -rf ./rootfs/fake_init/init
+    $CROSS_PREFIX-gcc ./rootfs/fake_init/fake_init.c -lpthread -static -o ./rootfs/fake_init/init
     dd if=/dev/zero of=./rootfs/rootfs.img bs=1M count=1024
     sleep 1
     pkexec $SHELL_FOLDER/fs/generate_rootfs.sh $SHELL_FOLDER/fs/rootfs/rootfs.img $SHELL_FOLDER/fs/sfdisk
