@@ -1,4 +1,5 @@
 SHELL_FOLDER=$(pwd)
+CROSS_PATH=/opt/riscv64--glibc--bleeding-edge-2020.08-1/riscv64-buildroot-linux-gnu/sysroot
 CROSS_PREFIX=/opt/riscv64--glibc--bleeding-edge-2020.08-1/bin/riscv64-linux
 
 case $1 in
@@ -107,7 +108,7 @@ case $1 in
     cp $SHELL_FOLDER/linux-5.10.42/arch/riscv/boot/Image $SHELL_FOLDER/fs/bootfs/Image
     cp $SHELL_FOLDER/dts/quard_star_uboot.dtb $SHELL_FOLDER/fs/bootfs/quard_star.dtb
     $SHELL_FOLDER/u-boot-2021.07/tools/mkimage -A riscv -O linux -T script -C none -a 0 -e 0 -n "Distro Boot Script" -d $SHELL_FOLDER/dts/quard_star_uboot.cmd $SHELL_FOLDER/fs/bootfs/boot.scr
-    pkexec $SHELL_FOLDER/fs/build.sh $SHELL_FOLDER/fs
+    pkexec $SHELL_FOLDER/fs/build.sh $SHELL_FOLDER/fs $CROSS_PATH
     cd -
 ;;
 "busybox")
@@ -123,6 +124,7 @@ case $1 in
 "busybox_clean")
     cd $SHELL_FOLDER/busybox-1.33.1
     make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- mrproper
+    rm -rf $SHELL_FOLDER/output
     cd -
 ;;
 "uboot")

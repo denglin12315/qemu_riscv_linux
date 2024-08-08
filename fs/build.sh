@@ -25,6 +25,8 @@ mkdir -p $1/target/rootfs/proc
 mkdir -p $1/target/rootfs/tmp
 mkdir -p $1/target/rootfs/sys/kernel/debug
 mkdir -p $1/target/rootfs/dev
+mkdir -p $1/target/rootfs/lib
+mkdir -p $1/target/rootfs/usr/bin
 
 cat > $1/target/rootfs/etc/fstab << EOF
 proc			/proc								proc			defaults    0	0
@@ -62,8 +64,14 @@ echo -n "Processing /etc/profile... "
 # no-op
 echo "Done"
 EOF
-
 chmod a+x $1/target/rootfs/etc/profile
+
+#cpy .so
+cp -a $2/lib/* $1/target/rootfs/lib/
+cp -a $2/usr/bin/* $1/target/rootfs/usr/bin
+cd $1/target/rootfs/
+ln -sf lib lib64
+cd -
 
 sync
 

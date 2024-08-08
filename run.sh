@@ -15,8 +15,8 @@ VC=\
 
 if [ $# != 1 ] ; then
 	if [ $# != 2 ] ; then
-		echo "usage $0 [graphic | nographic] [$VC]"
-		exit 1
+        echo "usage $0 [graphic | nographic] [$VC]"
+        exit 1
 	fi
 fi
 
@@ -45,7 +45,7 @@ nographic)
 	;;
 *)
 	echo "usage $0 [graphic | nographic] [$VC]"
-	exit 1	
+	exit 1
 	;;
 esac
 
