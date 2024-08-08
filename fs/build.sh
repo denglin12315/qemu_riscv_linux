@@ -19,9 +19,55 @@ cp -r $1/rootfs/bin $1/target/rootfs/
 cp -r $1/rootfs/linuxrc $1/target/rootfs/
 cp -r $1/rootfs/sbin $1/target/rootfs/
 cp -r $1/rootfs/usr $1/target/rootfs/
+
+mkdir -p $1/target/rootfs/etc/init.d
+mkdir -p $1/target/rootfs/proc
+mkdir -p $1/target/rootfs/tmp
+mkdir -p $1/target/rootfs/sys/kernel/debug
+mkdir -p $1/target/rootfs/dev
+
+cat > $1/target/rootfs/etc/fstab << EOF
+proc			/proc								proc			defaults    0	0
+none			/tmp								ramfs		defaults    0	0
+sysfs			/sys								sysfs		defaults    0	0
+mdev		    /dev								ramfs		defaults	0	0
+debugfs	        /sys/kernel/debug 	                debugfs	    defaults    0   0
+EOF
+chmod a+x $1/target/rootfs/etc/fstab
+
+cat > $1/target/rootfs/etc/init.d/rcS << EOF
+#! /bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+mount -a
+/sbin/mdev -s
+mount -a
+
+echo "---------------------------------------------"
+echo " Welcome debugging on Qemu Quard Star board! "
+echo "---------------------------------------------"
+EOF
+chmod a+x $1/target/rootfs/etc/init.d/rcS
+
+cat > $1/target/rootfs/etc/inittab << EOF
+::sysinit:/etc/init.d/rcS
+console::askfirst:-/bin/sh
+EOF
+chmod a+x $1/target/rootfs/etc/inittab
+
+cat > $1/target/rootfs/etc/profile << EOF
+# /etc/profile: system-wide .profile file for the Bourne shells
+
+echo -n "Processing /etc/profile... "
+# no-op
+echo "Done"
+EOF
+
+chmod a+x $1/target/rootfs/etc/profile
+
 sync
 
-rm -rf $1/rootfs/bin $1/rootfs/linuxrc $1/rootfs/sbin $1/rootfs/usr
+#rm -rf $1/rootfs/bin $1/rootfs/linuxrc $1/rootfs/sbin $1/rootfs/usr
 
 umount $1/target/bootfs 
 umount $1/target/rootfs
