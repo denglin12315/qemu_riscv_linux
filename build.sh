@@ -110,6 +110,21 @@ case $1 in
     pkexec $SHELL_FOLDER/fs/build.sh $SHELL_FOLDER/fs
     cd -
 ;;
+"busybox")
+    cd $SHELL_FOLDER/busybox-1.33.1
+    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- mrproper
+    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- quard_star_defconfig
+    bear make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j
+    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- install
+    cp -r $SHELL_FOLDER/output/busybox/* $SHELL_FOLDER/fs/rootfs/
+    rm -rf $SHELL_FOLDER/output
+    cd -
+;;
+"busybox_clean")
+    cd $SHELL_FOLDER/busybox-1.33.1
+    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- mrproper
+    cd -
+;;
 "uboot")
     cd $SHELL_FOLDER/u-boot-2021.07
     make CROSS_COMPILE=$CROSS_PREFIX- qemu-quard-star_defconfig
