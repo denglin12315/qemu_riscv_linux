@@ -1,0 +1,16 @@
+-drive file=$SHELL_FOLDER/fs/rootfs/rootfs.img,format=raw,id=hd0 \
+-device virtio-blk-device,drive=hd0 \
+这两个qemu配置中的hd0有什么联系？
+
+
+在QEMU的配置中，-drive选项和-device选项通过id属性关联起来。具体到你的配置:
+-drive file=$SHELL_FOLDER/fs/rootfs/rootfs.img,format=raw,id=hd0
+这个选项指定了一个磁盘映像文件rootfs.img，并将其标识为hd0。它告诉QEMU这个磁盘映像文件应该作为一个驱动器(drive)使用，并赋予它一个 ID hd0。
+-device virtio-blk-device,drive=hd0
+这个选项配置了一个virtio块设备，并将其与前面定义的驱动器hd0关联起来。drive=hd0指定了该virtio块设备使用前面定义的ID为hd0的驱动器。
+
+关系和工作原理
+ID关联: -drive 选项的 id=hd0 指定了驱动器的标识符为hd0。在-device选项中，drive=hd0通过hd0连接到这个驱动器。这意味着virtio-blk-device将使用rootfs.img作为其底层存储。
+工作原理:当QEMU启动时，它会根据-drive选项创建一个驱动器实例并将磁盘映像(rootfs.img)关联到这个驱动器。然后，-device选项的virtio-blk-device通过drive=hd0 将这个驱动器实
+例连接到虚拟块设备，使得虚拟机内的操作系统可以通过virtio设备访问rootfs.img的内容。
+总结来说，hd0是一个标识符，它在-drive选项和-device选项中都使用，确保虚拟机中定义的virtio-blk-device可以正确地使用指定的磁盘映像文件。
