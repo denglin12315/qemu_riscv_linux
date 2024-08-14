@@ -140,6 +140,12 @@ case $1 in
     rm -rf u-boot.lst
     cd -
 ;;
+"bash")
+    cd 
+    ./configure --host=riscv64 --prefix=$SHELL_FOLDER/app/output CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
+    make -j
+    make install
+;;
 "clean")
     cd $SHELL_FOLDER/qemu-6.0.0
     ./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio --enable-debug
