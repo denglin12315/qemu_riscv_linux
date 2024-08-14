@@ -16,11 +16,11 @@ case $1 in
 ;;
 "qemu")
 	#####################qemu compile
-    cd $SHELL_FOLDER/qemu-6.0.0
+	cd $SHELL_FOLDER/qemu-6.0.0
 	./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio --enable-debug
-    make clean
+	make clean
 	bear make -j
-    cd -
+	cd -
 ;;
 "qemu_clean")
     cd $SHELL_FOLDER/qemu-6.0.0
@@ -108,18 +108,28 @@ case $1 in
     cp $SHELL_FOLDER/linux-5.10.42/arch/riscv/boot/Image $SHELL_FOLDER/fs/bootfs/Image
     cp $SHELL_FOLDER/dts/quard_star_uboot.dtb $SHELL_FOLDER/fs/bootfs/quard_star.dtb
     $SHELL_FOLDER/u-boot-2021.07/tools/mkimage -A riscv -O linux -T script -C none -a 0 -e 0 -n "Distro Boot Script" -d $SHELL_FOLDER/dts/quard_star_uboot.cmd $SHELL_FOLDER/fs/bootfs/boot.scr
-    pkexec $SHELL_FOLDER/fs/build.sh $SHELL_FOLDER/fs $CROSS_PATH
+    pkexec $SHELL_FOLDER/fs/build.sh $SHELL_FOLDER/fs $CROSS_PATH $SHELL_FOLDER/app
     cd -
 ;;
 "busybox")
-    cd $SHELL_FOLDER/busybox-1.33.1
-    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- mrproper
-    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- quard_star_defconfig
-    bear make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j
-    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- install
-    cp -r $SHELL_FOLDER/output/busybox/* $SHELL_FOLDER/fs/rootfs/
-    rm -rf $SHELL_FOLDER/output
-    cd -
+	cd $SHELL_FOLDER/busybox-1.33.1
+	make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- mrproper
+	make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- quard_star_defconfig
+	bear make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j
+	make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- install
+	cp -r $SHELL_FOLDER/output/busybox/* $SHELL_FOLDER/fs/rootfs/
+	rm -rf $SHELL_FOLDER/output
+	cd -
+;;
+"app")
+	cd $SHELL_FOLDER/app
+	./build.sh build
+	cd -
+;;
+"app_clean")
+	cd $SHELL_FOLDER/app
+	./build.sh clean
+	cd -
 ;;
 "busybox_clean")
     cd $SHELL_FOLDER/busybox-1.33.1
@@ -139,12 +149,6 @@ case $1 in
     make CROSS_COMPILE=$CROSS_PREFIX- clean
     rm -rf u-boot.lst
     cd -
-;;
-"bash")
-    cd 
-    ./configure --host=riscv64 --prefix=$SHELL_FOLDER/app/output CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
-    make -j
-    make install
 ;;
 "clean")
     cd $SHELL_FOLDER/qemu-6.0.0

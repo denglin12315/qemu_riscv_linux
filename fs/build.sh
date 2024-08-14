@@ -26,7 +26,9 @@ mkdir -p $1/target/rootfs/tmp
 mkdir -p $1/target/rootfs/sys/kernel/debug
 mkdir -p $1/target/rootfs/dev
 mkdir -p $1/target/rootfs/lib
+mkdir -p $1/target/rootfs/mnt
 mkdir -p $1/target/rootfs/usr/bin
+mkdir -p $1/target/rootfs/usr/lib
 mkdir -p $1/target/rootfs/home/ldeng
 mkdir -p $1/target/rootfs/home/root
 
@@ -42,12 +44,13 @@ chmod a+x $1/target/rootfs/etc/fstab
 cat > $1/target/rootfs/etc/init.d/rcS << EOF
 #! /bin/sh
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-LD_LIBRARY_PATH=/lib
+LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 export PATH LD_LIBRARY_PATH
 
 mount -a
 /sbin/mdev -s
 mount -a
+mount -t 9p -o trans=virtio,version=9p2000.L hostshare /mnt/
 
 echo QEMU-QUARD-STAR > /proc/sys/kernel/hostname
 
@@ -80,9 +83,14 @@ chmod a+x $1/target/rootfs/etc/profile
 #cpy .so
 cp -a $2/lib/* $1/target/rootfs/lib/
 cp -a $2/usr/bin/* $1/target/rootfs/usr/bin
+cp -a $2/usr/lib/libncurses.so* $1/target/rootfs/usr/lib/
 cd $1/target/rootfs/
 ln -sf lib lib64
 cd -
+
+#cpy app ---- make & bash
+cp $3/output/bin/bash $1/target/rootfs/bin/
+cp $3/output/bin/make $1/target/rootfs/bin/
 
 cat > $1/target/rootfs/etc/shadow  <<EOF
 root:8f3SuzAlYA9zc:18802:0:99999:7:::
@@ -94,12 +102,12 @@ ldeng:8KRJzPtwP/eRQ:18802:0:99999:7:::
 EOF
 
 cat > $1/target/rootfs/etc/passwd  <<EOF
-root:x:0:0:root:/home/root:/bin/sh
-daemon:x:1:1:daemon:/usr/sbin:/bin/sh
-bin:x:2:2:bin:/bin:/bin/sh
-sys:x:3:3:sys:/dev:/bin/sh
-nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
-ldeng:x:1000:1000:Linux User,,,:/home/ldeng:/bin/sh
+root:x:0:0:root:/home/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/bin/bash
+bin:x:2:2:bin:/bin:/bin/bash
+sys:x:3:3:sys:/dev:/bin/bash
+nobody:x:65534:65534:nobody:/nonexistent:/bin/bash
+ldeng:x:1000:1000:Linux User,,,:/home/ldeng:/bin/bash
 EOF
 
 cat > $1/target/rootfs/etc/group  <<EOF
@@ -115,14 +123,14 @@ EOF
 
 cat > $1/target/rootfs/home/root/.bashrc <<EOF
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
-LD_LIBRARY_PATH=/lib
+LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 export PATH LD_LIBRARY_PATH
 alias ll='ls -lt'
 EOF
 
 cat > $1/target/rootfs/home/ldeng/.bashrc <<EOF
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
-LD_LIBRARY_PATH=/lib
+LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 export PATH LD_LIBRARY_PATH
 alias ll='ls -lt'
 EOF
