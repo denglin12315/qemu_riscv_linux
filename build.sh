@@ -6,7 +6,7 @@ case $1 in
 "linux")
     cd $SHELL_FOLDER/linux-5.10.42
     make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- quard_star_defconfig
-    make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j1
+    bear make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j1
     cd -
 ;;
 "linux_clean")
