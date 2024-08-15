@@ -1,13 +1,13 @@
 #!/bin/bash
 losetup -o 0 --sizelimit 1073741824 /dev/loop70 $1/rootfs/rootfs.img -P
-if [ -d "$1/target" ]; then  
+if [ -d "$1/target" ]; then
 rm -rf $1/target
 fi
 
 mkdir $1/target
 mkdir $1/target/bootfs
 mkdir $1/target/rootfs
-mount /dev/loop70p1 $1/target/bootfs 
+mount /dev/loop70p1 $1/target/bootfs
 mount /dev/loop70p2 $1/target/rootfs
 
 cp -r $1/bootfs/* $1/target/bootfs/
@@ -31,6 +31,7 @@ mkdir -p $1/target/rootfs/usr/bin
 mkdir -p $1/target/rootfs/usr/lib
 mkdir -p $1/target/rootfs/home/ldeng
 mkdir -p $1/target/rootfs/home/root
+mkdir -p $1/target/rootfs/usr/share
 
 cat > $1/target/rootfs/etc/fstab << EOF
 proc			/proc								proc			defaults    0	0
@@ -88,9 +89,16 @@ cd $1/target/rootfs/
 ln -sf lib lib64
 cd -
 
-#cpy app ---- make & bash
-cp $3/output/bin/bash $1/target/rootfs/bin/
-cp $3/output/bin/make $1/target/rootfs/bin/
+#build app and install
+cd $1/app
+./build.sh build $1/target/rootfs
+cd -
+
+#cp timezone info
+cp -a /usr/share/zoneinfo $1/target/rootfs/usr/share/
+cd $1/target/rootfs/
+ln -sf usr/share/zoneinfo/Asia/Shanghai etc/localtime
+cd -
 
 cat > $1/target/rootfs/etc/shadow  <<EOF
 root:8f3SuzAlYA9zc:18802:0:99999:7:::
@@ -145,9 +153,42 @@ shutdown= ssx 0.0 # run with euid=0/egid=0
 passwd = --- 0.0 # disabled for all user except for root
 EOF
 
+cat > $1/target/rootfs/etc/sudoers <<EOF
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# See the sudoers man page for the details on how to write a sudoers file.
+#
+
+##
+# Override built-in defaults
+##
+Defaults                syslog=auth,runcwd=~
+Defaults>root           !set_logname
+Defaults:FULLTIMERS     !lecture,runchroot=*
+Defaults:millert        !authenticate
+Defaults@SERVERS        log_year, logfile=/var/log/sudo.log
+Defaults!PAGERS         noexec
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+EOF
+
 sync
 
-umount $1/target/bootfs 
+umount $1/target/bootfs
 umount $1/target/rootfs
-losetup -d /dev/loop70  
+losetup -d /dev/loop70
 sync

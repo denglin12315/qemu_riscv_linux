@@ -240,7 +240,7 @@
 		poweroff {
 			value = <0x5555>;
 			offset = <0x0>;
-			regmap = <0x12>;*/	/* 使用的是test的regmap, phandle为12 */
+			regmap = <0x12>;	/* 使用的是test的regmap, phandle为12 */
 			compatible = "syscon-poweroff";
 		};
 

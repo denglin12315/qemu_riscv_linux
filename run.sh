@@ -60,7 +60,7 @@ $SHELL_FOLDER/qemu-6.0.0/build/qemu-system-riscv64 \
 -device virtio-blk-device,drive=hd0 \
 -device virtio-mouse-device \
 -device virtio-keyboard-device \
--fsdev local,security_model=passthrough,id=fsdev0,path=$SHELL_FOLDER/app \
+-fsdev local,security_model=passthrough,id=fsdev0,path=$SHELL_FOLDER/share \
 -device virtio-9p-device,id=fs0,fsdev=fsdev0,mount_tag=hostshare \
 -fw_cfg name="opt/qemu_cmdline",string="qemu_vc="$DEFAULT_V"" \
 $GRAPHIC_PARAM
