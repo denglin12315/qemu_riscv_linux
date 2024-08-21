@@ -58,6 +58,10 @@ build)
 	make install-binaries
 	cd -
 
+	# cp qt lib to rootfs /opt dir
+	mkdir -p $2/opt/qt-5.15.10
+	cp -a $SHELL_FOLDER/qt-5.15.10/* $2/opt/qt-5.15.10
+
 	;;
 *)
 

@@ -111,6 +111,22 @@ case $1 in
     pkexec $SHELL_FOLDER/fs/build.sh $SHELL_FOLDER/fs $CROSS_PATH
     cd -
 ;;
+"qt")
+	cd $SHELL_FOLDER/qt-everywhere-src-5.15.10
+	./build.sh $SHELL_FOLDER/fs/app/
+	cd -
+;;
+
+"qt_clean")
+	rm -rf $SHELL_FOLDER/fs/app/qt-5.15.10
+;;
+
+"qt_exp")
+	cd $SHELL_FOLDER/share/qt_example
+	./build.sh $SHELL_FOLDER/fs/app/qt-5.12.12
+	cd -
+;;
+
 "busybox")
 	cd $SHELL_FOLDER/busybox-1.33.1
 	make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- mrproper

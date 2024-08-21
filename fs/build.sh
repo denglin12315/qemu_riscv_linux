@@ -84,7 +84,7 @@ chmod a+x $1/target/rootfs/etc/profile
 #cpy .so
 cp -a $2/lib/* $1/target/rootfs/lib/
 cp -a $2/usr/bin/* $1/target/rootfs/usr/bin
-cp -a $2/usr/lib/libncurses.so* $1/target/rootfs/usr/lib/
+cp -a $2/usr/lib/* $1/target/rootfs/usr/lib/
 cd $1/target/rootfs/
 ln -sf lib lib64
 cd -
