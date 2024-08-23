@@ -13,18 +13,18 @@ clean)
 
 	# 编译make
 	cd $SHELL_FOLDER/make-4.3
-	$CONFIGURE --host=riscv64 --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
+	$CONFIGURE --host=riscv64 --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc
 	make distclean
 	cd -
 
 	# 编译ncurses
 	cd $SHELL_FOLDER/ncurses-6.2
-	$CONFIGURE --host=riscv64 --prefix=$2 --disable-stripping CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
+	$CONFIGURE --host=riscv64 --prefix=$2 --disable-stripping CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc
 	make distclean
 	cd -
 
 	cd $SHELL_FOLDER/sudo-1.9.7p1
-	./configure --host=riscv --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
+	./configure --host=riscv --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc
 	make distclean
 	cd -
 
@@ -40,23 +40,26 @@ build)
 
 	# 编译make
 	cd $SHELL_FOLDER/make-4.3
-	$CONFIGURE --host=riscv64 --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
+	$CONFIGURE --host=riscv64 --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc
 	make -j16
 	make install
 	cd -
+
 	# 编译ncurses
 	cd $SHELL_FOLDER/ncurses-6.2
-	$CONFIGURE --host=riscv64 --prefix=$2 --disable-stripping CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
+	$CONFIGURE --host=riscv64 --prefix=$2 --disable-stripping CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc
 	make -j16
 	make install.progs
 	make install.data
 	cd -
+
 	# 编译sudo
 	cd $SHELL_FOLDER/sudo-1.9.7p1
-	./configure --host=riscv --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc 
+	./configure --host=riscv --prefix=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc
 	make -j16
 	make install-binaries
 	cd -
+
 	# 编译zlib
 	cd $SHELL_FOLDER/zlib-1.3.1
 	export CC=$CROSS_PREFIX-gcc
@@ -64,19 +67,20 @@ build)
 	make -j2
 	make install
 	cd -
+
 	# 编译openssl
 	cd $SHELL_FOLDER/openssl-3.0.0
 	export CC=$CROSS_PREFIX-gcc
-	./configure linux-generic64 no-asm --prefix=$2 --cross-compile-prefix=$CROSS_PREFIX-
+	./Configure linux-generic64 no-asm --prefix=$2
 	make -j2
 	make install_sw
 	cd -
 
 	# 编译openssh
-	cd $SHELL_FOLDER/ssh
-	./configure --host=riscv64-linux-gnu --with-openssl=$2 --with-zlib=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc
+	cd $SHELL_FOLDER/openssh-8.6p1
+	./configure --host=riscv64-linux-gnu --with-openssl=$2 --with-zlib=$2 CXX=$CROSS_PREFIX-g++ CC=$CROSS_PREFIX-gcc --disable-strip
 	make -j2
-	make install
+	#make install # 在target上面执行make install
 	cd -
 
 	# cp qt lib to rootfs /opt dir

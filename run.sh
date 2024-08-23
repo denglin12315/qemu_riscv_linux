@@ -39,6 +39,24 @@ nographic)
     GRAPHIC_PARAM="-nographic --parallel none"
 	DEFAULT_V=":vn:$DEFAULT_VN:"
     ;;
+customize1)
+	GRAPHIC_PARAM="--display gtk,zoom-to-fit=false --serial vc:$DEFAULT_VC --serial vc:$DEFAULT_VC --serial vc:$DEFAULT_VC --monitor stdio --parallel none"
+	ROWS="$(echo $WIDTH / 8 |bc)"
+	COLS="$(echo $HEIGHT / 16 |bc)"
+	DEFAULT_V=":vn:$COLS""x""$ROWS:"
+	;;
+customize2)
+	GRAPHIC_PARAM="--display gtk,zoom-to-fit=false --serial telnet::3441,server,nowait --serial telnet::3442,server,nowait --serial telnet::3443,server,nowait --monitor stdio --parallel none"
+	DEFAULT_V=":vn:24x80:"
+	;;
+customize3)
+	GRAPHIC_PARAM="--display gtk,zoom-to-fit=false --serial telnet::3441,server,nowait --serial telnet::3442,server,nowait --serial telnet::3443,server,nowait --monitor none --parallel none"
+	DEFAULT_V=":vn:24x80:"
+	;;
+customize4)
+	GRAPHIC_PARAM="-nographic --serial telnet::3441,server,nowait --serial telnet::3442,server,nowait --serial telnet::3443,server,nowait --monitor none --parallel none"
+	DEFAULT_V=":vn:24x80:"
+	;;
 --help)
 	echo "usage $0 [graphic | nographic] [$VC]"
 	exit 0
@@ -60,7 +78,7 @@ $SHELL_FOLDER/qemu-6.0.0/build/qemu-system-riscv64 \
 -device virtio-blk-device,drive=hd0 \
 -device virtio-mouse-device \
 -device virtio-keyboard-device \
--netdev user,id=net0,net=192.168.31.0/24,dhcpstart=192.168.31.100 \
+-netdev user,id=net0,net=192.168.31.0/24,dhcpstart=192.168.31.100,hostfwd=tcp::3522-:22,hostfwd=tcp::3580-:80 \
 -device virtio-net-device,netdev=net0 \
 -fsdev local,security_model=passthrough,id=fsdev0,path=$SHELL_FOLDER/share \
 -device virtio-9p-device,id=fs0,fsdev=fsdev0,mount_tag=hostshare \

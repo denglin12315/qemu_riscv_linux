@@ -29,6 +29,7 @@ mkdir -p $1/target/rootfs/lib
 mkdir -p $1/target/rootfs/mnt
 mkdir -p $1/target/rootfs/usr/bin
 mkdir -p $1/target/rootfs/usr/lib
+mkdir -p $1/target/rootfs/usr/local/etc
 mkdir -p $1/target/rootfs/home/ldeng
 mkdir -p $1/target/rootfs/home/root
 mkdir -p $1/target/rootfs/usr/share/udhcpc
@@ -40,6 +41,102 @@ mkdir -p $1/target/rootfs/var/run/
 
 touch $1/target/rootfs/var/run/ifstate.new
 
+cat >$1/target/rootfs/usr/local/etc/sshd_config << "EOF"
+#	$OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
+# This is the sshd server system-wide configuration file.  See
+# sshd_config(5) for more information.
+# This sshd was compiled with PATH=/usr/bin:/bin:/usr/sbin:/sbin
+# The strategy used for options in the default sshd_config shipped with
+# OpenSSH is to specify options with their default value where
+# possible, but leave them commented.  Uncommented options override the
+# default value.
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+HostKey /usr/local/etc/ssh_host_rsa_key
+HostKey /usr/local/etc/ssh_host_ecdsa_key
+HostKey /usr/local/etc/ssh_host_ed25519_key
+# Ciphers and keying
+#RekeyLimit default none
+# Logging
+#SyslogFacility AUTH
+#LogLevel INFO
+# Authentication:
+#LoginGraceTime 2m
+#PermitRootLogin prohibit-password
+PermitRootLogin yes
+#StrictModes yes
+#MaxAuthTries 6
+#MaxSessions 10
+#PubkeyAuthentication yes
+# The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
+# but this is overridden so installations will only check .ssh/authorized_keys
+AuthorizedKeysFile	.ssh/authorized_keys
+#AuthorizedPrincipalsFile none
+#AuthorizedKeysCommand none
+#AuthorizedKeysCommandUser nobody
+# For this to work you will also need host keys in /home/qqm/Downloads/quard_star_tutorial/target_root_app/output/etc/ssh_known_hosts
+#HostbasedAuthentication no
+# Change to yes if you don't trust ~/.ssh/known_hosts for
+# HostbasedAuthentication
+#IgnoreUserKnownHosts no
+# Don't read the user's ~/.rhosts and ~/.shosts files
+#IgnoreRhosts yes
+# To disable tunneled clear text passwords, change to no here!
+#PasswordAuthentication yes
+#PermitEmptyPasswords no
+# Change to no to disable s/key passwords
+#ChallengeResponseAuthentication yes
+# Kerberos options
+#KerberosAuthentication no
+#KerberosOrLocalPasswd yes
+#KerberosTicketCleanup yes
+#KerberosGetAFSToken no
+# GSSAPI options
+GSSAPIAuthentication no
+#GSSAPICleanupCredentials yes
+# Set this to 'yes' to enable PAM authentication, account processing,
+# and session processing. If this is enabled, PAM authentication will
+# be allowed through the ChallengeResponseAuthentication and
+# PasswordAuthentication.  Depending on your PAM configuration,
+# PAM authentication via ChallengeResponseAuthentication may bypass
+# the setting of "PermitRootLogin without-password".
+# If you just want the PAM account and session checks to run without
+# PAM authentication, then enable this but set PasswordAuthentication
+# and ChallengeResponseAuthentication to 'no'.
+#UsePAM no
+#AllowAgentForwarding yes
+#AllowTcpForwarding yes
+#GatewayPorts no
+#X11Forwarding no
+#X11DisplayOffset 10
+#X11UseLocalhost yes
+#PermitTTY yes
+#PrintMotd yes
+#PrintLastLog yes
+#TCPKeepAlive yes
+#PermitUserEnvironment no
+#Compression delayed
+#ClientAliveInterval 0
+#ClientAliveCountMax 3
+UseDNS no
+#PidFile /var/run/sshd.pid
+#MaxStartups 10:30:100
+#PermitTunnel no
+#ChrootDirectory none
+#VersionAddendum none
+# no default banner path
+#Banner none
+# override default of no subsystems
+Subsystem	sftp	/usr/local/libexec/sftp-server
+# Example of overriding settings on a per-user basis
+#Match User anoncvs
+#	X11Forwarding no
+#	AllowTcpForwarding no
+#	PermitTTY no
+#	ForceCommand cvs server
+EOF
 
 cat > $1/target/rootfs/usr/share/udhcpc/default.script << "EOF"
 #!/bin/sh
@@ -258,6 +355,12 @@ mount -t 9p -o trans=virtio,version=9p2000.L hostshare /mnt/
 dmesg -n 1
 chmod 666 /dev/null
 
+if [ ! -f /usr/local/bin/ssh ]; then
+	cd /mnt/openssh-8.6p1
+	make install
+	cd -
+fi
+
 for i in /etc/init.d/S??* ;do
      [ ! -f "$i" ] && continue
      case "$i" in
@@ -292,6 +395,340 @@ console::respawn:/sbin/getty 38400 console
 ::restart:/sbin/init
 EOF
 chmod a+x $1/target/rootfs/etc/inittab
+
+
+cat > $1/target/rootfs/etc/init.d/S90sshd.sh << "EOF"
+#! /bin/bash
+sshd=/usr/local/sbin/sshd
+test -x "$sshd" || exit 0
+case "$1" in
+  start)
+    echo -n "Starting sshd daemon"
+    start-stop-daemon --start --quiet --exec $sshd  -b
+    echo "."
+    ;;
+  stop)
+    echo -n "Stopping sshd"
+    start-stop-daemon --stop --quiet --exec $sshd
+    echo "."
+    ;;
+  restart)
+    echo -n "Stopping sshd"
+    start-stop-daemon --stop --quiet --exec $sshd
+    echo "."
+    echo -n "Waiting for sshd to die off"
+    for i in 1 2 3 ;
+    do
+        sleep 1
+        echo -n "."
+    done
+    echo ""
+    echo -n "Starting sshd daemon"
+    start-stop-daemon --start --quiet --exec $sshd -b
+    echo "."
+    ;;
+  *)
+    echo "Usage: /etc/init.d/S90sshd.sh {start|stop|restart}"
+    exit 1
+esac
+exit 0
+EOF
+chmod a+x $1/target/rootfs/etc/init.d/S90sshd.sh
+
+cat > $1/target/rootfs/etc/init.d/S01syslogd << "EOF"
+#!/bin/sh
+
+DAEMON="syslogd"
+PIDFILE="/var/run/$DAEMON.pid"
+
+SYSLOGD_ARGS=""
+
+# shellcheck source=/dev/null
+[ -r "/etc/default/$DAEMON" ] && . "/etc/default/$DAEMON"
+
+# BusyBox' syslogd does not create a pidfile, so pass "-n" in the command line
+# and use "-m" to instruct start-stop-daemon to create one.
+start() {
+	printf 'Starting %s: ' "$DAEMON"
+	# shellcheck disable=SC2086 # we need the word splitting
+	start-stop-daemon -b -m -S -q -p "$PIDFILE" -x "/sbin/$DAEMON" \
+		-- -n $SYSLOGD_ARGS
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return "$status"
+}
+
+stop() {
+	printf 'Stopping %s: ' "$DAEMON"
+	start-stop-daemon -K -q -p "$PIDFILE"
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		rm -f "$PIDFILE"
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return "$status"
+}
+
+restart() {
+	stop
+	sleep 1
+	start
+}
+
+case "$1" in
+	start|stop|restart)
+		"$1";;
+	reload)
+		# Restart, since there is no true "reload" feature.
+		restart;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+EOF
+chmod a+x $1/target/rootfs/etc/init.d/S01syslogd
+
+
+cat > $1/target/rootfs/etc/init.d/S02klogd << "EOF"
+#!/bin/sh
+
+DAEMON="klogd"
+PIDFILE="/var/run/$DAEMON.pid"
+
+KLOGD_ARGS=""
+
+# shellcheck source=/dev/null
+[ -r "/etc/default/$DAEMON" ] && . "/etc/default/$DAEMON"
+
+# BusyBox' klogd does not create a pidfile, so pass "-n" in the command line
+# and use "-m" to instruct start-stop-daemon to create one.
+start() {
+	printf 'Starting %s: ' "$DAEMON"
+	# shellcheck disable=SC2086 # we need the word splitting
+	start-stop-daemon -b -m -S -q -p "$PIDFILE" -x "/sbin/$DAEMON" \
+		-- -n $KLOGD_ARGS
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return "$status"
+}
+
+stop() {
+	printf 'Stopping %s: ' "$DAEMON"
+	start-stop-daemon -K -q -p "$PIDFILE"
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		rm -f "$PIDFILE"
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return "$status"
+}
+
+restart() {
+	stop
+	sleep 1
+	start
+}
+
+case "$1" in
+	start|stop|restart)
+		"$1";;
+	reload)
+		# Restart, since there is no true "reload" feature.
+		restart;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+EOF
+chmod a+x $1/target/rootfs/etc/init.d/S02klogd
+
+cat > $1/target/rootfs/etc/init.d/S02sysctl << "EOF"
+#!/bin/sh
+#
+# This script is used by busybox and procps-ng.
+#
+# With procps-ng, the "--system" option of sysctl also enables "--ignore", so
+# errors are not reported via syslog. Use the run_logger function to mimic the
+# --system behavior, still reporting errors via syslog. Users not interested
+# on error reports can add "-e" to SYSCTL_ARGS.
+#
+# busybox does not have a "--system" option neither reports errors via syslog,
+# so the scripting provides a consistent behavior between the implementations.
+# Testing the busybox sysctl exit code is fruitless, as at the moment, since
+# its exit status is zero even if errors happen. Hopefully this will be fixed
+# in a future busybox version.
+
+PROGRAM="sysctl"
+
+SYSCTL_ARGS=""
+
+# shellcheck source=/dev/null
+[ -r "/etc/default/$PROGRAM" ] && . "/etc/default/$PROGRAM"
+
+# Files are read from directories in the SYSCTL_SOURCES list, in the given
+# order. A file may be used more than once, since there can be multiple
+# symlinks to it. No attempt is made to prevent this.
+SYSCTL_SOURCES="/etc/sysctl.d/ /usr/local/lib/sysctl.d/ /usr/lib/sysctl.d/ /lib/sysctl.d/ /etc/sysctl.conf"
+
+# If the logger utility is available all messages are sent to syslog, except
+# for the final status. The file redirections do the following:
+#
+# - stdout is redirected to syslog with facility.level "kern.info"
+# - stderr is redirected to syslog with facility.level "kern.err"
+# - file dscriptor 4 is used to pass the result to the "start" function.
+#
+run_logger() {
+	# shellcheck disable=SC2086 # we need the word splitting
+	find $SYSCTL_SOURCES -maxdepth 1 -name '*.conf' -print0 2> /dev/null | \
+	xargs -0 -r -n 1 readlink -f | {
+		prog_status="OK"
+		while :; do
+			read -r file || {
+				echo "$prog_status" >&4
+				break
+			}
+			echo "* Applying $file ..."
+			/sbin/sysctl -p "$file" $SYSCTL_ARGS || prog_status="FAIL"
+		done 2>&1 >&3 | /usr/bin/logger -t sysctl -p kern.err
+	} 3>&1 | /usr/bin/logger -t sysctl -p kern.info
+}
+
+# If logger is not available all messages are sent to stdout/stderr.
+run_std() {
+	# shellcheck disable=SC2086 # we need the word splitting
+	find $SYSCTL_SOURCES -maxdepth 1 -name '*.conf' -print0 2> /dev/null | \
+	xargs -0 -r -n 1 readlink -f | {
+		prog_status="OK"
+		while :; do
+			read -r file || {
+				echo "$prog_status" >&4
+				break
+			}
+			echo "* Applying $file ..."
+			/sbin/sysctl -p "$file" $SYSCTL_ARGS || prog_status="FAIL"
+		done
+	}
+}
+
+if [ -x /usr/bin/logger ]; then
+	run_program="run_logger"
+else
+	run_program="run_std"
+fi
+
+start() {
+	printf '%s %s: ' "$1" "$PROGRAM"
+	status=$("$run_program" 4>&1)
+	echo "$status"
+	if [ "$status" = "OK" ]; then
+		return 0
+	fi
+	return 1
+}
+
+case "$1" in
+	start)
+		start "Running";;
+	restart|reload)
+		start "Rerunning";;
+	stop)
+		:;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+EOF
+chmod a+x $1/target/rootfs/etc/init.d/S02sysctl
+
+cat > $1/target/rootfs/etc/init.d/S20urandom << "EOF"
+#! /bin/sh
+#
+# Preserve the random seed between reboots. See urandom(4).
+#
+
+# Quietly do nothing if /dev/urandom does not exist
+[ -c /dev/urandom ] || exit 0
+
+URANDOM_SEED="/var/lib/random-seed"
+
+# shellcheck source=/dev/null
+[ -r "/etc/default/urandom" ] && . "/etc/default/urandom"
+
+if pool_bits=$(cat /proc/sys/kernel/random/poolsize 2> /dev/null); then
+	pool_size=$((pool_bits/8))
+else
+	pool_size=512
+fi
+
+check_file_size() {
+	[ -f "$URANDOM_SEED" ] || return 1
+	# Try to read two blocks but exactly one will be read if the file has
+	# the correct size.
+	size=$(dd if="$URANDOM_SEED" bs="$pool_size" count=2 2> /dev/null | wc -c)
+	test "$size" -eq "$pool_size"
+}
+
+init_rng() {
+	if check_file_size; then
+		printf 'Initializing random number generator: '
+		dd if="$URANDOM_SEED" bs="$pool_size" of=/dev/urandom count=1 2> /dev/null
+		status=$?
+		if [ "$status" -eq 0 ]; then
+			echo "OK"
+		else
+			echo "FAIL"
+		fi
+		return "$status"
+	fi
+}
+
+save_random_seed() {
+	printf 'Saving random seed: '
+	if touch "$URANDOM_SEED" 2> /dev/null; then
+		old_umask=$(umask)
+		umask 077
+		dd if=/dev/urandom of="$URANDOM_SEED" bs="$pool_size" count=1 2> /dev/null
+		status=$?
+		umask "$old_umask"
+		if [ "$status" -eq 0 ]; then
+			echo "OK"
+		else
+			echo "FAIL"
+		fi
+	else
+		status=$?
+		echo "SKIP (read-only file system detected)"
+	fi
+	return "$status"
+}
+
+case "$1" in
+	start|restart|reload)
+		# Carry a random seed from start-up to start-up
+		# Load and then save the whole entropy pool
+		init_rng && save_random_seed;;
+	stop)
+		# Carry a random seed from shut-down to start-up
+		# Save the whole entropy pool
+		save_random_seed;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
+EOF
+chmod a+x $1/target/rootfs/etc/init.d/S20urandom
 
 cat > $1/target/rootfs/etc/init.d/S40network << "EOF"
 #!/bin/bash
@@ -356,6 +793,7 @@ cp -a $2/usr/bin/* $1/target/rootfs/usr/bin
 cp -a $2/usr/lib/* $1/target/rootfs/usr/lib/
 cd $1/target/rootfs/
 ln -sf lib lib64
+cp bin/mkdir usr/bin/mkdir
 cd -
 
 cp -a /usr/share/zoneinfo $1/target/rootfs/usr/share/
@@ -379,6 +817,7 @@ bin:x:2:2:bin:/bin:/bin/bash
 sys:x:3:3:sys:/dev:/bin/bash
 nobody:x:65534:65534:nobody:/nonexistent:/bin/bash
 ldeng:x:1000:1000:Linux User,,,:/home/ldeng:/bin/bash
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
 EOF
 
 cat > $1/target/rootfs/etc/group  << "EOF"

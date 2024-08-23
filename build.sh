@@ -110,6 +110,8 @@ case $1 in
     $SHELL_FOLDER/u-boot-2021.07/tools/mkimage -A riscv -O linux -T script -C none -a 0 -e 0 -n "Distro Boot Script" -d $SHELL_FOLDER/dts/quard_star_uboot.cmd $SHELL_FOLDER/fs/bootfs/boot.scr
     pkexec $SHELL_FOLDER/fs/build.sh $SHELL_FOLDER/fs $CROSS_PATH
     cd -
+
+    cp -a $SHELL_FOLDER/fs/app/openssh-8.6p1 $SHELL_FOLDER/share/
 ;;
 "qt")
 	cd $SHELL_FOLDER/qt-everywhere-src-5.15.10
