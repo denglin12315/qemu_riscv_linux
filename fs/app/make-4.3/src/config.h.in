@@ -126,15 +126,10 @@
 /* Define to the number of bits in type 'wint_t'. */
 #undef BITSIZEOF_WINT_T
 
-/* Define to 1 if the `closedir' function returns void instead of `int'. */
+/* Define to 1 if the `closedir' function returns void instead of int. */
 #undef CLOSEDIR_VOID
 
-/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
-   systems. This function is required for `alloca.c' support on those systems.
-   */
-#undef CRAY_STACKSEG_END
-
-/* Define to 1 if using `alloca.c'. */
+/* Define to 1 if using 'alloca.c'. */
 #undef C_ALLOCA
 
 /* Define to 1 for DGUX with <sys/dg_sys_info.h>. */
@@ -204,8 +199,7 @@
    may be supplied by this distribution. */
 #undef HAVE_ALLOCA
 
-/* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
-   */
+/* Define to 1 if <alloca.h> works. */
 #undef HAVE_ALLOCA_H
 
 /* Define to 1 if you have the `atexit' function. */
@@ -465,6 +459,9 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
+
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
@@ -484,7 +481,7 @@
 /* Define to 1 if you have the `strdup' function. */
 #undef HAVE_STRDUP
 
-/* Define to 1 if you have the `strerror_r' function. */
+/* Define if you have `strerror_r'. */
 #undef HAVE_STRERROR_R
 
 /* Define to 1 if you have the `stricmp' function. */
@@ -582,7 +579,7 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Define to 1 if the system has the type 'unsigned long long int'. */
+/* Define to 1 if the system has the type `unsigned long long int'. */
 #undef HAVE_UNSIGNED_LONG_LONG_INT
 
 /* Define if you have a global __progname variable */
@@ -710,7 +707,9 @@
 /* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */
 #undef STAT_MACROS_BROKEN
 
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
 
 /* Define to 1 if strerror_r returns char *. */
@@ -722,7 +721,8 @@
 /* Define to 1 on System V Release 4. */
 #undef SVR4
 
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. This
+   macro is obsolete. */
 #undef TIME_WITH_SYS_TIME
 
 /* Define to 1 for Encore UMAX. */
@@ -835,11 +835,6 @@
 # ifndef WORDS_BIGENDIAN
 #  undef WORDS_BIGENDIAN
 # endif
-#endif
-
-/* Enable large inode numbers on Mac OS X 10.5.  */
-#ifndef _DARWIN_USE_64_BIT_INODE
-# define _DARWIN_USE_64_BIT_INODE 1
 #endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */
@@ -1053,7 +1048,7 @@
 /* Define to `long int' if <sys/types.h> does not define. */
 #undef off_t
 
-/* Define to `int' if <sys/types.h> does not define. */
+/* Define as a signed integer type capable of holding a process identifier. */
 #undef pid_t
 
 /* Define to the equivalent of the C99 'restrict' keyword, or to

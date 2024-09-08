@@ -6,7 +6,7 @@ case $1 in
 "linux")
     cd $SHELL_FOLDER/linux-5.10.42
     make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- quard_star_defconfig
-    bear make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j1
+    bear -- make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j4
     cd -
 ;;
 "linux_clean")
@@ -19,7 +19,7 @@ case $1 in
 	cd $SHELL_FOLDER/qemu-6.0.0
 	./configure --target-list=riscv64-softmmu --enable-gtk  --enable-virtfs --disable-gio --enable-debug
 	make clean
-	bear make -j
+	bear -- make -j
 	cd -
 ;;
 "qemu_clean")
@@ -43,7 +43,7 @@ case $1 in
     cd $SHELL_FOLDER/opensbi-0.9
     make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star clean 
     rm -rf ./build
-    bear make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star -j
+    bear -- make CROSS_COMPILE=$CROSS_PREFIX- PLATFORM=quard_star -j
     $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/opensbi-0.9/build/platform/quard_star/firmware/fw_jump.elf > $SHELL_FOLDER/opensbi-0.9/fw_jump.lst
     cd -
 ;;
@@ -98,6 +98,7 @@ case $1 in
 ;;
 "fs")
     cd $SHELL_FOLDER/fs
+    mkdir -p $SHELL_FOLDER/fs/bootfs/
     rm -rf ./rootfs/rootfs.img
     rm -rf ./rootfs/fake_init/init
     $CROSS_PREFIX-gcc ./rootfs/fake_init/fake_init.c -lpthread -static -o ./rootfs/fake_init/init
@@ -125,7 +126,7 @@ case $1 in
 
 "qt_exp")
 	cd $SHELL_FOLDER/share/qt_example
-	./build.sh $SHELL_FOLDER/fs/app/qt-5.12.12
+	./build.sh $SHELL_FOLDER/fs/app/qt-5.15.10
 	cd -
 ;;
 
@@ -133,7 +134,7 @@ case $1 in
 	cd $SHELL_FOLDER/busybox-1.33.1
 	make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- mrproper
 	make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- quard_star_defconfig
-	bear make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j
+	bear -- make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- -j
 	make ARCH=riscv CROSS_COMPILE=$CROSS_PREFIX- install
 	cp -r $SHELL_FOLDER/output/busybox/* $SHELL_FOLDER/fs/rootfs/
 	rm -rf $SHELL_FOLDER/output
@@ -148,7 +149,7 @@ case $1 in
 "uboot")
     cd $SHELL_FOLDER/u-boot-2021.07
     make CROSS_COMPILE=$CROSS_PREFIX- qemu-quard-star_defconfig
-    bear make CROSS_COMPILE=$CROSS_PREFIX- -j
+    bear -- make CROSS_COMPILE=$CROSS_PREFIX- -j4
     $CROSS_PREFIX-objdump --source --demangle --disassemble --reloc --wide $SHELL_FOLDER/u-boot-2021.07/u-boot > $SHELL_FOLDER/u-boot-2021.07/u-boot.lst
     cd -
 ;;

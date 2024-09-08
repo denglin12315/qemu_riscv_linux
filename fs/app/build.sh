@@ -63,7 +63,7 @@ build)
 	# 编译zlib
 	cd $SHELL_FOLDER/zlib-1.3.1
 	export CC=$CROSS_PREFIX-gcc
-	./configure --prefix=$2
+	./configure CFLAGS="-fPIC" --prefix=$2
 	make -j2
 	make install
 	cd -

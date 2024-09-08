@@ -1,10 +1,10 @@
-This is make.info, produced by makeinfo version 6.6 from make.texi.
+This is make.info, produced by makeinfo version 6.8 from make.texi.
 
 This file documents the GNU 'make' utility, which determines
 automatically which pieces of a large program need to be recompiled, and
 issues the commands to recompile them.
 
-   This is Edition 0.75, last updated 19 January 2020, of 'The GNU Make
+   This is Edition 0.75, last updated 3 September 2024, of 'The GNU Make
 Manual', for GNU 'make' version 4.3.
 
    Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996,
@@ -38,7 +38,7 @@ This file documents the GNU 'make' utility, which determines
 automatically which pieces of a large program need to be recompiled, and
 issues the commands to recompile them.
 
-   This is Edition 0.75, last updated 19 January 2020, of 'The GNU Make
+   This is Edition 0.75, last updated 3 September 2024, of 'The GNU Make
 Manual', for GNU 'make' version 4.3.
 
    Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996,
